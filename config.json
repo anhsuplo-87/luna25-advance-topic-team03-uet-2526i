@@ -1,0 +1,234 @@
+{
+    "__comment__Working directory": "Working directory",
+    "WORKDIR": "/data/luna25/model/luna25-baseline-public",
+    "RESOURCES": "/data/luna25/model/luna25-baseline-public/resources",
+    "MODEL_RGB_I3D": "/data/luna25/model/luna25-baseline-public/resources/model_rgb.pth",
+    "__comment__Data parameters": "Data parameters",
+    "DATADIR": "/data/luna25/data/luna25_nodule_blocks",
+    "MASK_DATADIR": "/data/luna25/data/luna25_nodule_blocks_mask",
+    "SIZE_MM": 50,
+    "SIZE_PX": 64,
+    "PATCH_SIZE": [
+        64,
+        128,
+        128
+    ],
+    "__comment__CSV split prefix and directory": "CSV split prefix and directory",
+    "CSV_DIR": "/data/luna25/data/dataset_csv",
+    "SPLIT_PREFIX": "mask_mclab",
+    "CSV_DIR_TRAIN": "/data/luna25/data/dataset_csv/mask_mclab_train.csv",
+    "CSV_DIR_VALID": "/data/luna25/data/dataset_csv/mask_mclab_valid.csv",
+    "__comment__Results (NAME + MODE)": "Results (NAME + MODE)",
+    "EXPERIMENT_DIR": "/data/luna25/model/luna25-baseline-public/results",
+    "EXPERIMENT_NAME": "LUNA25-phase-training-cosine-avg-linear-with-aux-seg-gate_mask_mclab_split",
+    "MODE": "3D",
+    "__comment__Training parameters": "Training parameters",
+    "SEED": 2025,
+    "NUM_WORKERS": 8,
+    "BATCH_SIZE": 32,
+    "ROTATION": [
+        [
+            -20,
+            20
+        ],
+        [
+            -20,
+            20
+        ],
+        [
+            -20,
+            20
+        ]
+    ],
+    "TRANSLATION": true,
+    "ELASTIC": false,
+    "EPOCHS": 80,
+    "PATIENCE": 20,
+    "LEARNING_RATE": 0.0001,
+    "WEIGHT_DECAY": 0.0005,
+    "__comment__MCLab configuration": "MCLab configuration",
+    "VALID_SAMPLES_NUM": 200,
+    "SCHEDULER": "step_custom",
+    "STEP_LR_SIZE": 20,
+    "DOWNSTEPS": [
+        20,
+        60
+    ],
+    "SUBMISSION": false,
+    "SAVE_EPOCHS": [],
+    "ROT_FLIP": "yz",
+    "RF_RATIO": [
+        0.3,
+        0.3
+    ],
+    "DROP_RATE": 0.0,
+    "UP_SCALE": 2.0,
+    "EMA_RATE": 0.998,
+    "MIX_PROB": 0.0,
+    "LABEL_SMOOTHING_ALPHA": 0.0,
+    "__comment__MCLab Model configuration": "MCLab Model configuration",
+    "AUX_TASK": "Segmentation",
+    "AUX_BATCH_SIZE": 16,
+    "DETECTOR_DROP_RATE": 0.0,
+    "AUX_LOSS_WEIGHT": 0.5,
+    "USE_AUX_MODEL": true,
+    "USE_SEG_GATE": true,
+    "USE_CLINICAL_GATE": false,
+    "CLINICAL_DIM": 2,
+    "AUX_VALIDATE": true,
+    "CLS_HEAD_TYPE": "avg_head",
+    "CLS_TAIL_TYPE": "linear",
+    "__comment__Phase Training configuration": "Phase Training configuration",
+    "PHASE_CFG": [
+        {
+            "name": "seg_warmup",
+            "lr": {
+                "backbone": 1e-4,
+                "aux_model": 5e-4
+            },
+            "scheduler": {
+                "type": "cosine",
+                "T_max": 20
+            },
+            "epochs": 20,
+            "patience": 10,
+            "train_parts": [
+                "backbone",
+                "aux_model",
+                "seg_gate"
+            ],
+            "freeze_parts": [
+                "clinical_gate",
+                "classifier_head"
+            ],
+            "loss": {
+                "seg": {
+                    "start": 1.0,
+                    "end": 1.0
+                },
+                "cls": {
+                    "start": 0.001,
+                    "end": 0.2
+                }
+            },
+            "ema": {
+                "min": 0.90,
+                "max": 0.95
+            }
+        },
+        {
+            "name": "cls_warmup",
+            "lr": {
+                "classifier_head": 1e-4,
+                "seg_gate": 1e-4,
+                "clinical_gate": 1e-4
+            },
+            "scheduler": {
+                "type": "cosine",
+                "T_max": 5
+            },
+            "epochs": 5,
+            "patience": 5,
+            "train_parts": [
+                "classifier_head"
+            ],
+            "freeze_parts": [
+                "backbone",
+                "aux_model",
+                "seg_gate",
+                "clinical_gate"
+            ],
+            "loss": {
+                "seg": {
+                    "start": 1.0,
+                    "end": 1.0
+                },
+                "cls": {
+                    "start": 0.2,
+                    "end": 0.25
+                }
+            },
+            "ema": {
+                "min": 0.90,
+                "max": 0.95
+            }
+        },
+        {
+            "name": "multitask",
+            "lr": {
+                "backbone": 5e-5,
+                "aux_model": 3e-4,
+                "classifier_head": 1e-4,
+                "seg_gate": 1e-4,
+                "clinical_gate": 1e-4
+            },
+            "scheduler": {
+                "type": "cosine",
+                "T_max": 10
+            },
+            "epochs": 10,
+            "patience": 5,
+            "train_parts": [
+                "backbone",
+                "aux_model",
+                "classifier_head"
+            ],
+            "freeze_parts": [
+                "seg_gate",
+                "clinical_gate"
+            ],
+            "loss": {
+                "seg": {
+                    "start": 1.0,
+                    "end": 1.0
+                },
+                "cls": {
+                    "start": 0.25,
+                    "end": 0.35
+                }
+            },
+            "ema": {
+                "min": 0.90,
+                "max": 0.99
+            }
+        },
+        {
+            "name": "cls_finetune",
+            "lr": {
+                "backbone_last": 5e-5,
+                "classifier_head": 5e-5,
+                "seg_gate": 5e-5,
+                "clinical_gate": 5e-5
+            },
+            "scheduler": {
+                "type": "cosine",
+                "T_max": 30
+            },
+            "epochs": 30,
+            "patience": 15,
+            "train_parts": [
+                "backbone_last",
+                "classifier_head",
+                "seg_gate",
+                "clinical_gate"
+            ],
+            "freeze_parts": [
+                "aux_model"
+            ],
+            "loss": {
+                "seg": {
+                    "start": 1.0,
+                    "end": 0.01
+                },
+                "cls": {
+                    "start": 0.35,
+                    "end": 1.0
+                }
+            },
+            "ema": {
+                "min": 0.95,
+                "max": 0.999
+            }
+        }
+    ]
+}

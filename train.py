@@ -1,8 +1,8 @@
 """
 Script for training a ResNet18 or I3D to classify a pulmonary nodule as benign or malignant.
 """
-from models.model_2d import ResNet18
-from models.model_3d import I3D
+from models.baseline.model_2d import ResNet18
+from models.baseline.model_3d import I3D
 from dataloader import get_data_loader
 import logging
 import numpy as np
@@ -130,6 +130,10 @@ def train(
     patience = config.PATIENCE
     counter = 0
 
+    # record train and valid loss
+    train_losses = []
+    valid_losses = []
+
     for epoch in range(epochs):
 
         if counter > patience:
@@ -163,6 +167,7 @@ def train(
                     "{}/{}, train_loss: {:.4f}".format(step, epoch_len, loss.item())
                 )
         epoch_loss /= step
+        train_losses.append(epoch_loss)
         logging.info(
             "epoch {} average train loss: {:.4f}".format(epoch + 1, epoch_loss)
         )
@@ -195,6 +200,7 @@ def train(
                 epoch_len = len(valid_df) // valid_loader.batch_size
 
             epoch_loss /= step
+            valid_losses.append(epoch_loss)
             logging.info(
                 "epoch {} average valid loss: {:.4f}".format(epoch + 1, epoch_loss)
             )

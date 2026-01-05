@@ -1,0 +1,429 @@
+(/data/luna25/model/luna25_model_env) aimachine@aimachine:/data/luna25/model/luna25-baseline-public$ python train_mclab.py
+Loaded config from config.json
+[INFO][05:12:58] WORKDIR : /data/luna25/model/luna25-baseline-public
+[INFO][05:12:58] RESOURCES : /data/luna25/model/luna25-baseline-public/resources
+[INFO][05:12:58] MODEL_RGB_I3D : /data/luna25/model/luna25-baseline-public/resources/model_rgb.pth
+[INFO][05:12:58] DATADIR : /data/luna25/data/luna25_nodule_blocks
+[INFO][05:12:58] MASK_DATADIR : /data/luna25/data/luna25_nodule_blocks_mask
+[INFO][05:12:58] CSV_DIR : /data/luna25/data/dataset_csv
+[INFO][05:12:58] SPLIT_PREFIX : mask_mclab
+[INFO][05:12:58] CSV_DIR_TRAIN : /data/luna25/data/dataset_csv/mask_mclab_train.csv
+[INFO][05:12:58] CSV_DIR_VALID : /data/luna25/data/dataset_csv/mask_mclab_valid.csv
+[INFO][05:12:58] EXPERIMENT_DIR : /data/luna25/model/luna25-baseline-public/results
+[INFO][05:12:58] EXPERIMENT_NAME : LUNA25-mclab-baseline_mask_mclab_split
+[INFO][05:12:58] MODE : 3D
+[INFO][05:12:58] SEED : 2025
+[INFO][05:12:58] NUM_WORKERS : 8
+[INFO][05:12:58] SIZE_MM : 50
+[INFO][05:12:58] SIZE_PX : 64
+[INFO][05:12:58] BATCH_SIZE : 32
+[INFO][05:12:58] ROTATION : [[-20, 20], [-20, 20], [-20, 20]]
+[INFO][05:12:58] TRANSLATION : True
+[INFO][05:12:58] ELASTIC : False
+[INFO][05:12:58] EPOCHS : 60
+[INFO][05:12:58] PATIENCE : 30
+[INFO][05:12:58] PATCH_SIZE : [64, 128, 128]
+[INFO][05:12:58] LEARNING_RATE : 0.0001
+[INFO][05:12:58] WEIGHT_DECAY : 0.0005
+[INFO][05:12:58] VALID_SAMPLES_NUM : 200
+[INFO][05:12:58] SCHEDULER : step_custom
+[INFO][05:12:58] STEP_LR_SIZE : 20
+[INFO][05:12:58] DOWNSTEPS : [60, 80]
+[INFO][05:12:58] SUBMISSION : False
+[INFO][05:12:58] SAVE_EPOCHS : []
+[INFO][05:12:58] ROT_FLIP : yz
+[INFO][05:12:58] RF_RATIO : [0.3, 0.3]
+[INFO][05:12:58] DROP_RATE : 0.0
+[INFO][05:12:58] UP_SCALE : 2.0
+[INFO][05:12:58] EMA_RATE : 0.998
+[INFO][05:12:58] MIX_PROB : 0.0
+[INFO][05:12:58] LABEL_SMOOTHING_ALPHA : 0.0
+[INFO][05:12:58] AUX_TASK : Segmentation
+[INFO][05:12:58] AUX_BATCH_SIZE : 16
+[INFO][05:12:58] DETECTOR_DROP_RATE : 0.0
+[INFO][05:12:58] AUX_LOSS_WEIGHT : 0.5
+[INFO][05:12:58] Original train samples: 5049
+[INFO][05:12:58] Original valid samples: 1108
+[INFO][05:12:58] Total unique patients in validation set: 512
+[INFO][05:12:58] Selected patients for validation: 90
+[INFO][05:12:58] New train samples: 5956
+[INFO][05:12:58] New valid samples: 201 (target was 200)
+[INFO][05:12:58] Number of malignant training samples: 458
+[INFO][05:12:58] Number of benign training samples: 5498
+[INFO][05:12:58] Number of malignant validation samples: 96
+[INFO][05:12:58] Number of benign validation samples: 105
+[INFO][05:13:00] ----------
+[INFO][05:13:00] epoch 1/60
+[INFO][05:15:38] 100/186, train_cls_loss: 0.3407, train_seg_loss: 0.4028
+[INFO][05:17:16] epoch 1 average train cls loss: 0.5244, train seg loss: 0.4605
+[INFO][05:17:24] epoch 1 average valid cls loss: 0.4172, valid seg loss: 0.3723
+[INFO][05:17:25] saved new best multitask model
+[INFO][05:17:25] current epoch: 1 current AUC: 0.9030 best AUC: 0.9030 at epoch 1
+[INFO][05:17:25] ----------
+[INFO][05:17:25] epoch 2/60
+[INFO][05:19:09] 100/186, train_cls_loss: 0.4928, train_seg_loss: 0.2834
+[INFO][05:20:38] epoch 2 average train cls loss: 0.3918, train seg loss: 0.2745
+[INFO][05:20:42] epoch 2 average valid cls loss: 0.3657, valid seg loss: 0.3196
+[INFO][05:20:43] saved new best multitask model
+[INFO][05:20:43] current epoch: 2 current AUC: 0.9150 best AUC: 0.9150 at epoch 2
+[INFO][05:20:43] ----------
+[INFO][05:20:43] epoch 3/60
+[INFO][05:22:27] 100/186, train_cls_loss: 0.2347, train_seg_loss: 0.3627
+[INFO][05:23:56] epoch 3 average train cls loss: 0.3435, train seg loss: 0.2564
+[INFO][05:24:00] epoch 3 average valid cls loss: 0.3638, valid seg loss: 0.3185
+[INFO][05:24:01] saved new best multitask model
+[INFO][05:24:01] current epoch: 3 current AUC: 0.9202 best AUC: 0.9202 at epoch 3
+[INFO][05:24:01] ----------
+[INFO][05:24:01] epoch 4/60
+[INFO][05:25:46] 100/186, train_cls_loss: 0.3292, train_seg_loss: 0.2612
+[INFO][05:27:14] epoch 4 average train cls loss: 0.3267, train seg loss: 0.2332
+[INFO][05:27:18] epoch 4 average valid cls loss: 0.3444, valid seg loss: 0.3004
+[INFO][05:27:19] saved new best multitask model
+[INFO][05:27:19] current epoch: 4 current AUC: 0.9304 best AUC: 0.9304 at epoch 4
+[INFO][05:27:19] ----------
+[INFO][05:27:19] epoch 5/60
+[INFO][05:29:04] 100/186, train_cls_loss: 0.4098, train_seg_loss: 0.2144
+[INFO][05:30:32] epoch 5 average train cls loss: 0.2920, train seg loss: 0.2141
+[INFO][05:30:37] epoch 5 average valid cls loss: 0.3538, valid seg loss: 0.2861
+[INFO][05:30:37] current epoch: 5 current AUC: 0.9256 best AUC: 0.9304 at epoch 4
+[INFO][05:30:37] ----------
+[INFO][05:30:37] epoch 6/60
+[INFO][05:32:22] 100/186, train_cls_loss: 0.2191, train_seg_loss: 0.0881
+[INFO][05:33:50] epoch 6 average train cls loss: 0.2596, train seg loss: 0.2154
+[INFO][05:33:54] epoch 6 average valid cls loss: 0.3995, valid seg loss: 0.2737
+[INFO][05:33:54] current epoch: 6 current AUC: 0.9149 best AUC: 0.9304 at epoch 4
+[INFO][05:33:54] ----------
+[INFO][05:33:54] epoch 7/60
+[INFO][05:35:39] 100/186, train_cls_loss: 0.1700, train_seg_loss: 0.1383
+[INFO][05:37:07] epoch 7 average train cls loss: 0.2550, train seg loss: 0.2055
+[INFO][05:37:12] epoch 7 average valid cls loss: 0.4197, valid seg loss: 0.2850
+[INFO][05:37:12] current epoch: 7 current AUC: 0.9149 best AUC: 0.9304 at epoch 4
+[INFO][05:37:12] ----------
+[INFO][05:37:12] epoch 8/60
+[INFO][05:38:56] 100/186, train_cls_loss: 0.2789, train_seg_loss: 0.2981
+[INFO][05:40:25] epoch 8 average train cls loss: 0.2261, train seg loss: 0.2014
+[INFO][05:40:29] epoch 8 average valid cls loss: 0.4356, valid seg loss: 0.2563
+[INFO][05:40:29] current epoch: 8 current AUC: 0.9207 best AUC: 0.9304 at epoch 4
+[INFO][05:40:29] ----------
+[INFO][05:40:29] epoch 9/60
+[INFO][05:42:13] 100/186, train_cls_loss: 0.1779, train_seg_loss: 0.1443
+[INFO][05:43:41] epoch 9 average train cls loss: 0.2360, train seg loss: 0.1915
+[INFO][05:43:46] epoch 9 average valid cls loss: 0.4277, valid seg loss: 0.2673
+[INFO][05:43:46] current epoch: 9 current AUC: 0.9247 best AUC: 0.9304 at epoch 4
+[INFO][05:43:46] ----------
+[INFO][05:43:46] epoch 10/60
+[INFO][05:45:30] 100/186, train_cls_loss: 0.2800, train_seg_loss: 0.1516
+[INFO][05:46:59] epoch 10 average train cls loss: 0.2243, train seg loss: 0.1823
+[INFO][05:47:03] epoch 10 average valid cls loss: 0.4300, valid seg loss: 0.3056
+[INFO][05:47:03] current epoch: 10 current AUC: 0.9205 best AUC: 0.9304 at epoch 4
+[INFO][05:47:03] ----------
+[INFO][05:47:03] epoch 11/60
+[INFO][05:48:47] 100/186, train_cls_loss: 0.2634, train_seg_loss: 0.2052
+[INFO][05:50:16] epoch 11 average train cls loss: 0.2005, train seg loss: 0.1831
+[INFO][05:50:20] epoch 11 average valid cls loss: 0.4308, valid seg loss: 0.2689
+[INFO][05:50:20] current epoch: 11 current AUC: 0.9259 best AUC: 0.9304 at epoch 4
+[INFO][05:50:20] ----------
+[INFO][05:50:20] epoch 12/60
+[INFO][05:52:05] 100/186, train_cls_loss: 0.0726, train_seg_loss: 0.1760
+[INFO][05:53:33] epoch 12 average train cls loss: 0.1978, train seg loss: 0.1765
+[INFO][05:53:38] epoch 12 average valid cls loss: 0.4075, valid seg loss: 0.2584
+[INFO][05:53:39] saved new best multitask model
+[INFO][05:53:39] current epoch: 12 current AUC: 0.9344 best AUC: 0.9344 at epoch 12
+[INFO][05:53:39] ----------
+[INFO][05:53:39] epoch 13/60
+[INFO][05:55:23] 100/186, train_cls_loss: 0.1334, train_seg_loss: 0.0960
+[INFO][05:56:52] epoch 13 average train cls loss: 0.2070, train seg loss: 0.1727
+[INFO][05:56:56] epoch 13 average valid cls loss: 0.4163, valid seg loss: 0.2962
+[INFO][05:56:56] current epoch: 13 current AUC: 0.9307 best AUC: 0.9344 at epoch 12
+[INFO][05:56:56] ----------
+[INFO][05:56:56] epoch 14/60
+[INFO][05:58:41] 100/186, train_cls_loss: 0.1999, train_seg_loss: 0.2213
+[INFO][06:00:09] epoch 14 average train cls loss: 0.1853, train seg loss: 0.1795
+[INFO][06:00:13] epoch 14 average valid cls loss: 0.4238, valid seg loss: 0.2471
+[INFO][06:00:13] current epoch: 14 current AUC: 0.9342 best AUC: 0.9344 at epoch 12
+[INFO][06:00:13] ----------
+[INFO][06:00:13] epoch 15/60
+[INFO][06:01:58] 100/186, train_cls_loss: 0.4116, train_seg_loss: 0.1361
+[INFO][06:03:26] epoch 15 average train cls loss: 0.1849, train seg loss: 0.1728
+[INFO][06:03:31] epoch 15 average valid cls loss: 0.4324, valid seg loss: 0.2319
+[INFO][06:03:31] current epoch: 15 current AUC: 0.9313 best AUC: 0.9344 at epoch 12
+[INFO][06:03:31] ----------
+[INFO][06:03:31] epoch 16/60
+[INFO][06:05:15] 100/186, train_cls_loss: 0.2773, train_seg_loss: 0.1923
+[INFO][06:06:43] epoch 16 average train cls loss: 0.1702, train seg loss: 0.1938
+[INFO][06:06:47] epoch 16 average valid cls loss: 0.4442, valid seg loss: 0.2619
+[INFO][06:06:47] current epoch: 16 current AUC: 0.9299 best AUC: 0.9344 at epoch 12
+[INFO][06:06:47] ----------
+[INFO][06:06:47] epoch 17/60
+[INFO][06:08:32] 100/186, train_cls_loss: 0.1214, train_seg_loss: 0.2304
+[INFO][06:10:00] epoch 17 average train cls loss: 0.1643, train seg loss: 0.1602
+[INFO][06:10:04] epoch 17 average valid cls loss: 0.4665, valid seg loss: 0.2614
+[INFO][06:10:04] current epoch: 17 current AUC: 0.9284 best AUC: 0.9344 at epoch 12
+[INFO][06:10:04] ----------
+[INFO][06:10:04] epoch 18/60
+[INFO][06:11:49] 100/186, train_cls_loss: 0.1875, train_seg_loss: 0.0953
+[INFO][06:13:17] epoch 18 average train cls loss: 0.1895, train seg loss: 0.1682
+[INFO][06:13:21] epoch 18 average valid cls loss: 0.4610, valid seg loss: 0.2338
+[INFO][06:13:21] current epoch: 18 current AUC: 0.9265 best AUC: 0.9344 at epoch 12
+[INFO][06:13:21] ----------
+[INFO][06:13:21] epoch 19/60
+[INFO][06:15:06] 100/186, train_cls_loss: 0.0573, train_seg_loss: 0.2019
+[INFO][06:16:35] epoch 19 average train cls loss: 0.1588, train seg loss: 0.1567
+[INFO][06:16:39] epoch 19 average valid cls loss: 0.4583, valid seg loss: 0.2405
+[INFO][06:16:39] current epoch: 19 current AUC: 0.9289 best AUC: 0.9344 at epoch 12
+[INFO][06:16:39] ----------
+[INFO][06:16:39] epoch 20/60
+[INFO][06:18:24] 100/186, train_cls_loss: 0.0736, train_seg_loss: 0.1613
+[INFO][06:19:52] epoch 20 average train cls loss: 0.1510, train seg loss: 0.1525
+[INFO][06:19:56] epoch 20 average valid cls loss: 0.4748, valid seg loss: 0.2345
+[INFO][06:19:56] current epoch: 20 current AUC: 0.9250 best AUC: 0.9344 at epoch 12
+[INFO][06:19:56] ----------
+[INFO][06:19:56] epoch 21/60
+[INFO][06:21:41] 100/186, train_cls_loss: 0.2611, train_seg_loss: 0.2700
+[INFO][06:23:09] epoch 21 average train cls loss: 0.1356, train seg loss: 0.1607
+[INFO][06:23:14] epoch 21 average valid cls loss: 0.4842, valid seg loss: 0.2368
+[INFO][06:23:14] current epoch: 21 current AUC: 0.9267 best AUC: 0.9344 at epoch 12
+[INFO][06:23:14] ----------
+[INFO][06:23:14] epoch 22/60
+[INFO][06:24:58] 100/186, train_cls_loss: 0.0698, train_seg_loss: -0.2336
+[INFO][06:26:27] epoch 22 average train cls loss: 0.1487, train seg loss: 0.1705
+[INFO][06:26:31] epoch 22 average valid cls loss: 0.4955, valid seg loss: 0.2438
+[INFO][06:26:31] current epoch: 22 current AUC: 0.9258 best AUC: 0.9344 at epoch 12
+[INFO][06:26:31] ----------
+[INFO][06:26:31] epoch 23/60
+[INFO][06:28:16] 100/186, train_cls_loss: 0.0912, train_seg_loss: 0.1925
+[INFO][06:29:44] epoch 23 average train cls loss: 0.1628, train seg loss: 0.1572
+[INFO][06:29:48] epoch 23 average valid cls loss: 0.4949, valid seg loss: 0.2509
+[INFO][06:29:48] current epoch: 23 current AUC: 0.9250 best AUC: 0.9344 at epoch 12
+[INFO][06:29:48] ----------
+[INFO][06:29:48] epoch 24/60
+[INFO][06:31:33] 100/186, train_cls_loss: 0.0915, train_seg_loss: 0.0999
+[INFO][06:33:01] epoch 24 average train cls loss: 0.1362, train seg loss: 0.1596
+[INFO][06:33:06] epoch 24 average valid cls loss: 0.4973, valid seg loss: 0.2440
+[INFO][06:33:06] current epoch: 24 current AUC: 0.9268 best AUC: 0.9344 at epoch 12
+[INFO][06:33:06] ----------
+[INFO][06:33:06] epoch 25/60
+[INFO][06:34:50] 100/186, train_cls_loss: 0.2234, train_seg_loss: 0.2366
+[INFO][06:36:19] epoch 25 average train cls loss: 0.1273, train seg loss: 0.1546
+[INFO][06:36:23] epoch 25 average valid cls loss: 0.5082, valid seg loss: 0.2323
+[INFO][06:36:23] current epoch: 25 current AUC: 0.9271 best AUC: 0.9344 at epoch 12
+[INFO][06:36:23] ----------
+[INFO][06:36:23] epoch 26/60
+[INFO][06:38:08] 100/186, train_cls_loss: 0.0643, train_seg_loss: 0.1982
+[INFO][06:39:36] epoch 26 average train cls loss: 0.1526, train seg loss: 0.1628
+[INFO][06:39:40] epoch 26 average valid cls loss: 0.4950, valid seg loss: 0.3255
+[INFO][06:39:40] current epoch: 26 current AUC: 0.9291 best AUC: 0.9344 at epoch 12
+[INFO][06:39:40] ----------
+[INFO][06:39:40] epoch 27/60
+[INFO][06:41:25] 100/186, train_cls_loss: 0.3553, train_seg_loss: 0.2160
+[INFO][06:42:54] epoch 27 average train cls loss: 0.1435, train seg loss: 0.1632
+[INFO][06:42:58] epoch 27 average valid cls loss: 0.4974, valid seg loss: 0.2437
+[INFO][06:42:58] current epoch: 27 current AUC: 0.9296 best AUC: 0.9344 at epoch 12
+[INFO][06:42:58] ----------
+[INFO][06:42:58] epoch 28/60
+[INFO][06:44:43] 100/186, train_cls_loss: 0.0586, train_seg_loss: 0.1173
+[INFO][06:46:11] epoch 28 average train cls loss: 0.1337, train seg loss: 0.1574
+[INFO][06:46:15] epoch 28 average valid cls loss: 0.5100, valid seg loss: 0.2792
+[INFO][06:46:15] current epoch: 28 current AUC: 0.9281 best AUC: 0.9344 at epoch 12
+[INFO][06:46:15] ----------
+[INFO][06:46:15] epoch 29/60
+[INFO][06:48:00] 100/186, train_cls_loss: 0.0425, train_seg_loss: 0.1421
+[INFO][06:49:29] epoch 29 average train cls loss: 0.1339, train seg loss: 0.1577
+[INFO][06:49:33] epoch 29 average valid cls loss: 0.5131, valid seg loss: 0.3573
+[INFO][06:49:33] current epoch: 29 current AUC: 0.9279 best AUC: 0.9344 at epoch 12
+[INFO][06:49:33] ----------
+[INFO][06:49:33] epoch 30/60
+[INFO][06:51:18] 100/186, train_cls_loss: 0.1514, train_seg_loss: 0.1206
+[INFO][06:52:46] epoch 30 average train cls loss: 0.1290, train seg loss: 0.1652
+[INFO][06:52:51] epoch 30 average valid cls loss: 0.5182, valid seg loss: 0.2448
+[INFO][06:52:51] current epoch: 30 current AUC: 0.9288 best AUC: 0.9344 at epoch 12
+[INFO][06:52:51] ----------
+[INFO][06:52:51] epoch 31/60
+[INFO][06:54:35] 100/186, train_cls_loss: 0.0841, train_seg_loss: 0.2499
+[INFO][06:56:04] epoch 31 average train cls loss: 0.1361, train seg loss: 0.1585
+[INFO][06:56:08] epoch 31 average valid cls loss: 0.5191, valid seg loss: 0.2418
+[INFO][06:56:08] current epoch: 31 current AUC: 0.9284 best AUC: 0.9344 at epoch 12
+[INFO][06:56:08] ----------
+[INFO][06:56:08] epoch 32/60
+[INFO][06:57:53] 100/186, train_cls_loss: 0.0165, train_seg_loss: 0.0697
+[INFO][06:59:21] epoch 32 average train cls loss: 0.1334, train seg loss: 0.1576
+[INFO][06:59:25] epoch 32 average valid cls loss: 0.5111, valid seg loss: 0.2367
+[INFO][06:59:25] current epoch: 32 current AUC: 0.9303 best AUC: 0.9344 at epoch 12
+[INFO][06:59:25] ----------
+[INFO][06:59:25] epoch 33/60
+[INFO][07:01:10] 100/186, train_cls_loss: 0.1006, train_seg_loss: 0.2417
+[INFO][07:02:38] epoch 33 average train cls loss: 0.1358, train seg loss: 0.1520
+[INFO][07:02:42] epoch 33 average valid cls loss: 0.5090, valid seg loss: 0.2297
+[INFO][07:02:42] current epoch: 33 current AUC: 0.9312 best AUC: 0.9344 at epoch 12
+[INFO][07:02:42] ----------
+[INFO][07:02:42] epoch 34/60
+[INFO][07:04:27] 100/186, train_cls_loss: 0.1662, train_seg_loss: 0.1634
+[INFO][07:05:55] epoch 34 average train cls loss: 0.1287, train seg loss: 0.1596
+[INFO][07:06:00] epoch 34 average valid cls loss: 0.5128, valid seg loss: 0.2963
+[INFO][07:06:00] current epoch: 34 current AUC: 0.9297 best AUC: 0.9344 at epoch 12
+[INFO][07:06:00] ----------
+[INFO][07:06:00] epoch 35/60
+[INFO][07:07:44] 100/186, train_cls_loss: 0.1439, train_seg_loss: 0.0873
+[INFO][07:09:12] epoch 35 average train cls loss: 0.1079, train seg loss: 0.1430
+[INFO][07:09:16] epoch 35 average valid cls loss: 0.5468, valid seg loss: 0.4572
+[INFO][07:09:16] current epoch: 35 current AUC: 0.9292 best AUC: 0.9344 at epoch 12
+[INFO][07:09:16] ----------
+[INFO][07:09:16] epoch 36/60
+[INFO][07:11:01] 100/186, train_cls_loss: 0.4844, train_seg_loss: 0.1104
+[INFO][07:12:29] epoch 36 average train cls loss: 0.1509, train seg loss: 0.1561
+[INFO][07:12:34] epoch 36 average valid cls loss: 0.5408, valid seg loss: 0.2347
+[INFO][07:12:34] current epoch: 36 current AUC: 0.9283 best AUC: 0.9344 at epoch 12
+[INFO][07:12:34] ----------
+[INFO][07:12:34] epoch 37/60
+[INFO][07:14:18] 100/186, train_cls_loss: 0.3031, train_seg_loss: 0.0857
+[INFO][07:15:46] epoch 37 average train cls loss: 0.1624, train seg loss: 0.1687
+[INFO][07:15:51] epoch 37 average valid cls loss: 0.5308, valid seg loss: 0.5497
+[INFO][07:15:51] current epoch: 37 current AUC: 0.9260 best AUC: 0.9344 at epoch 12
+[INFO][07:15:51] ----------
+[INFO][07:15:51] epoch 38/60
+[INFO][07:17:35] 100/186, train_cls_loss: 0.0731, train_seg_loss: 0.1458
+[INFO][07:19:04] epoch 38 average train cls loss: 0.1168, train seg loss: 0.1472
+[INFO][07:19:08] epoch 38 average valid cls loss: 0.5305, valid seg loss: 0.2787
+[INFO][07:19:08] current epoch: 38 current AUC: 0.9285 best AUC: 0.9344 at epoch 12
+[INFO][07:19:08] ----------
+[INFO][07:19:08] epoch 39/60
+[INFO][07:20:53] 100/186, train_cls_loss: 0.0517, train_seg_loss: 0.1787
+[INFO][07:22:21] epoch 39 average train cls loss: 0.1201, train seg loss: 0.1634
+[INFO][07:22:25] epoch 39 average valid cls loss: 0.5291, valid seg loss: 0.2870
+[INFO][07:22:25] current epoch: 39 current AUC: 0.9314 best AUC: 0.9344 at epoch 12
+[INFO][07:22:25] ----------
+[INFO][07:22:25] epoch 40/60
+[INFO][07:24:10] 100/186, train_cls_loss: 0.0823, train_seg_loss: 0.1602
+[INFO][07:25:38] epoch 40 average train cls loss: 0.1450, train seg loss: 0.1569
+[INFO][07:25:43] epoch 40 average valid cls loss: 0.5087, valid seg loss: 0.2607
+[INFO][07:25:43] current epoch: 40 current AUC: 0.9340 best AUC: 0.9344 at epoch 12
+[INFO][07:25:43] ----------
+[INFO][07:25:43] epoch 41/60
+[INFO][07:27:28] 100/186, train_cls_loss: 0.0607, train_seg_loss: 0.1601
+[INFO][07:28:56] epoch 41 average train cls loss: 0.1210, train seg loss: 0.1522
+[INFO][07:29:00] epoch 41 average valid cls loss: 0.5177, valid seg loss: 0.2344
+[INFO][07:29:01] saved new best multitask model
+[INFO][07:29:01] current epoch: 41 current AUC: 0.9351 best AUC: 0.9351 at epoch 41
+[INFO][07:29:01] ----------
+[INFO][07:29:01] epoch 42/60
+[INFO][07:30:46] 100/186, train_cls_loss: 0.3326, train_seg_loss: 0.1568
+[INFO][07:32:14] epoch 42 average train cls loss: 0.1203, train seg loss: 0.1734
+[INFO][07:32:18] epoch 42 average valid cls loss: 0.5130, valid seg loss: 0.2561
+[INFO][07:32:19] saved new best multitask model
+[INFO][07:32:19] current epoch: 42 current AUC: 0.9359 best AUC: 0.9359 at epoch 42
+[INFO][07:32:19] ----------
+[INFO][07:32:19] epoch 43/60
+[INFO][07:34:04] 100/186, train_cls_loss: 0.0734, train_seg_loss: 0.1415
+[INFO][07:35:32] epoch 43 average train cls loss: 0.1183, train seg loss: 0.1545
+[INFO][07:35:37] epoch 43 average valid cls loss: 0.4970, valid seg loss: 0.2528
+[INFO][07:35:37] saved new best multitask model
+[INFO][07:35:37] current epoch: 43 current AUC: 0.9380 best AUC: 0.9380 at epoch 43
+[INFO][07:35:37] ----------
+[INFO][07:35:37] epoch 44/60
+[INFO][07:37:22] 100/186, train_cls_loss: 0.0757, train_seg_loss: 0.1416
+[INFO][07:38:51] epoch 44 average train cls loss: 0.1134, train seg loss: 0.1599
+[INFO][07:38:55] epoch 44 average valid cls loss: 0.5118, valid seg loss: 0.2448
+[INFO][07:38:56] saved new best multitask model
+[INFO][07:38:56] current epoch: 44 current AUC: 0.9388 best AUC: 0.9388 at epoch 44
+[INFO][07:38:56] ----------
+[INFO][07:38:56] epoch 45/60
+[INFO][07:40:41] 100/186, train_cls_loss: 0.0821, train_seg_loss: -0.3158
+[INFO][07:42:09] epoch 45 average train cls loss: 0.1143, train seg loss: 0.1503
+[INFO][07:42:13] epoch 45 average valid cls loss: 0.5178, valid seg loss: 0.2537
+[INFO][07:42:14] saved new best multitask model
+[INFO][07:42:14] current epoch: 45 current AUC: 0.9401 best AUC: 0.9401 at epoch 45
+[INFO][07:42:14] ----------
+[INFO][07:42:14] epoch 46/60
+[INFO][07:43:58] 100/186, train_cls_loss: 0.2535, train_seg_loss: 0.1486
+[INFO][07:45:27] epoch 46 average train cls loss: 0.1127, train seg loss: 0.1532
+[INFO][07:45:31] epoch 46 average valid cls loss: 0.5204, valid seg loss: 0.4249
+[INFO][07:45:31] current epoch: 46 current AUC: 0.9392 best AUC: 0.9401 at epoch 45
+[INFO][07:45:31] ----------
+[INFO][07:45:31] epoch 47/60
+[INFO][07:47:15] 100/186, train_cls_loss: 0.0399, train_seg_loss: 0.1103
+[INFO][07:48:44] epoch 47 average train cls loss: 0.1180, train seg loss: 0.1584
+[INFO][07:48:48] epoch 47 average valid cls loss: 0.5155, valid seg loss: 0.3226
+[INFO][07:48:48] current epoch: 47 current AUC: 0.9394 best AUC: 0.9401 at epoch 45
+[INFO][07:48:48] ----------
+[INFO][07:48:48] epoch 48/60
+[INFO][07:50:33] 100/186, train_cls_loss: 0.0291, train_seg_loss: 0.1641
+[INFO][07:52:01] epoch 48 average train cls loss: 0.1216, train seg loss: 0.1604
+[INFO][07:52:05] epoch 48 average valid cls loss: 0.5111, valid seg loss: 0.2908
+[INFO][07:52:06] saved new best multitask model
+[INFO][07:52:06] current epoch: 48 current AUC: 0.9403 best AUC: 0.9403 at epoch 48
+[INFO][07:52:06] ----------
+[INFO][07:52:06] epoch 49/60
+[INFO][07:53:51] 100/186, train_cls_loss: 0.0955, train_seg_loss: 0.1057
+[INFO][07:55:19] epoch 49 average train cls loss: 0.1144, train seg loss: 0.1649
+[INFO][07:55:24] epoch 49 average valid cls loss: 0.5117, valid seg loss: 0.2789
+[INFO][07:55:24] current epoch: 49 current AUC: 0.9392 best AUC: 0.9403 at epoch 48
+[INFO][07:55:24] ----------
+[INFO][07:55:24] epoch 50/60
+[INFO][07:57:08] 100/186, train_cls_loss: 0.0479, train_seg_loss: 0.1313
+[INFO][07:58:37] epoch 50 average train cls loss: 0.1254, train seg loss: 0.1537
+[INFO][07:58:41] epoch 50 average valid cls loss: 0.4974, valid seg loss: 0.8765
+[INFO][07:58:42] saved new best multitask model
+[INFO][07:58:42] current epoch: 50 current AUC: 0.9405 best AUC: 0.9405 at epoch 50
+[INFO][07:58:42] ----------
+[INFO][07:58:42] epoch 51/60
+[INFO][08:00:26] 100/186, train_cls_loss: 0.0612, train_seg_loss: 0.1270
+[INFO][08:01:55] epoch 51 average train cls loss: 0.1094, train seg loss: 0.1530
+[INFO][08:01:59] epoch 51 average valid cls loss: 0.5034, valid seg loss: 0.8290
+[INFO][08:01:59] current epoch: 51 current AUC: 0.9360 best AUC: 0.9405 at epoch 50
+[INFO][08:01:59] ----------
+[INFO][08:01:59] epoch 52/60
+[INFO][08:03:44] 100/186, train_cls_loss: 0.1447, train_seg_loss: 0.1736
+[INFO][08:05:12] epoch 52 average train cls loss: 0.1264, train seg loss: 0.1484
+[INFO][08:05:16] epoch 52 average valid cls loss: 0.5095, valid seg loss: 0.2787
+[INFO][08:05:16] current epoch: 52 current AUC: 0.9362 best AUC: 0.9405 at epoch 50
+[INFO][08:05:16] ----------
+[INFO][08:05:16] epoch 53/60
+[INFO][08:07:01] 100/186, train_cls_loss: 0.2128, train_seg_loss: 0.1206
+[INFO][08:08:29] epoch 53 average train cls loss: 0.1032, train seg loss: 0.1546
+[INFO][08:08:33] epoch 53 average valid cls loss: 0.5291, valid seg loss: 0.4557
+[INFO][08:08:33] current epoch: 53 current AUC: 0.9358 best AUC: 0.9405 at epoch 50
+[INFO][08:08:33] ----------
+[INFO][08:08:33] epoch 54/60
+[INFO][08:10:18] 100/186, train_cls_loss: 0.1908, train_seg_loss: 0.1387
+[INFO][08:11:46] epoch 54 average train cls loss: 0.1206, train seg loss: 0.1598
+[INFO][08:11:50] epoch 54 average valid cls loss: 0.5348, valid seg loss: 0.2273
+[INFO][08:11:50] current epoch: 54 current AUC: 0.9362 best AUC: 0.9405 at epoch 50
+[INFO][08:11:50] ----------
+[INFO][08:11:50] epoch 55/60
+[INFO][08:13:35] 100/186, train_cls_loss: 0.0180, train_seg_loss: 0.0788
+[INFO][08:15:03] epoch 55 average train cls loss: 0.1319, train seg loss: 0.1528
+[INFO][08:15:07] epoch 55 average valid cls loss: 0.5193, valid seg loss: 0.5043
+[INFO][08:15:07] current epoch: 55 current AUC: 0.9346 best AUC: 0.9405 at epoch 50
+[INFO][08:15:07] ----------
+[INFO][08:15:07] epoch 56/60
+[INFO][08:16:52] 100/186, train_cls_loss: 0.1017, train_seg_loss: 0.1302
+[INFO][08:18:20] epoch 56 average train cls loss: 0.1092, train seg loss: 0.1484
+[INFO][08:18:25] epoch 56 average valid cls loss: 0.5225, valid seg loss: 0.2423
+[INFO][08:18:25] current epoch: 56 current AUC: 0.9332 best AUC: 0.9405 at epoch 50
+[INFO][08:18:25] ----------
+[INFO][08:18:25] epoch 57/60
+[INFO][08:20:09] 100/186, train_cls_loss: 0.2570, train_seg_loss: 0.1681
+[INFO][08:21:38] epoch 57 average train cls loss: 0.1063, train seg loss: 0.1473
+[INFO][08:21:42] epoch 57 average valid cls loss: 0.5260, valid seg loss: 0.2458
+[INFO][08:21:42] current epoch: 57 current AUC: 0.9323 best AUC: 0.9405 at epoch 50
+[INFO][08:21:42] ----------
+[INFO][08:21:42] epoch 58/60
+[INFO][08:23:27] 100/186, train_cls_loss: 0.0874, train_seg_loss: 0.1451
+[INFO][08:24:55] epoch 58 average train cls loss: 0.1197, train seg loss: 0.1478
+[INFO][08:25:00] epoch 58 average valid cls loss: 0.5245, valid seg loss: 0.2161
+[INFO][08:25:00] current epoch: 58 current AUC: 0.9288 best AUC: 0.9405 at epoch 50
+[INFO][08:25:00] ----------
+[INFO][08:25:00] epoch 59/60
+[INFO][08:26:44] 100/186, train_cls_loss: 0.3523, train_seg_loss: -0.1070
+[INFO][08:28:13] epoch 59 average train cls loss: 0.1072, train seg loss: 0.1562
+[INFO][08:28:17] epoch 59 average valid cls loss: 0.5403, valid seg loss: 0.2309
+[INFO][08:28:17] current epoch: 59 current AUC: 0.9279 best AUC: 0.9405 at epoch 50
+[INFO][08:28:17] ----------
+[INFO][08:28:17] epoch 60/60
+[INFO][08:30:02] 100/186, train_cls_loss: 0.0378, train_seg_loss: 0.1436
+[INFO][08:31:30] epoch 60 average train cls loss: 0.0922, train seg loss: 0.1557
+[INFO][08:31:35] epoch 60 average valid cls loss: 0.5580, valid seg loss: 0.2979
+[INFO][08:31:35] current epoch: 60 current AUC: 0.9277 best AUC: 0.9405 at epoch 50
+[INFO][08:31:35] Multi-task training completed, best_metric: 0.9405 at epoch: 50
+[INFO][08:31:35] All results saved in: /data/luna25/model/luna25-baseline-public/results/LUNA25-mclab-baseline_mask_mclab_split-multitask-3D-20251216
+(/data/luna25/model/luna25_model_env) aimachine@aimachine:/data/luna25/model/luna25-baseline-public$

@@ -1,0 +1,74 @@
+{
+    "__comment__Working directory": "Working directory",
+    "WORKDIR": "/data/luna25/model/luna25-baseline-public",
+    "RESOURCES": "/data/luna25/model/luna25-baseline-public/resources",
+    "MODEL_RGB_I3D": "/data/luna25/model/luna25-baseline-public/resources/model_rgb.pth",
+    "__comment__Data parameters": "Data parameters",
+    "DATADIR": "/data/luna25/data/luna25_nodule_blocks",
+    "MASK_DATADIR": "/data/luna25/data/luna25_nodule_blocks_mask",
+    "SIZE_MM": 50,
+    "SIZE_PX": 64,
+    "PATCH_SIZE": [
+        64,
+        128,
+        128
+    ],
+    "__comment__CSV split prefix and directory": "CSV split prefix and directory",
+    "CSV_DIR": "/data/luna25/data/dataset_csv",
+    "SPLIT_PREFIX": "mask_mclab",
+    "CSV_DIR_TRAIN": "/data/luna25/data/dataset_csv/mask_mclab_train.csv",
+    "CSV_DIR_VALID": "/data/luna25/data/dataset_csv/mask_mclab_valid.csv",
+    "__comment__Results (NAME + MODE)": "Results (NAME + MODE)",
+    "EXPERIMENT_DIR": "/data/luna25/model/luna25-baseline-public/results",
+    "EXPERIMENT_NAME": "LUNA25-mclab-baseline_mask_mclab_split",
+    "MODE": "3D",
+    "__comment__Training parameters": "Training parameters",
+    "SEED": 2025,
+    "NUM_WORKERS": 8,
+    "BATCH_SIZE": 32,
+    "ROTATION": [
+        [
+            -20,
+            20
+        ],
+        [
+            -20,
+            20
+        ],
+        [
+            -20,
+            20
+        ]
+    ],
+    "TRANSLATION": true,
+    "ELASTIC": false,
+    "EPOCHS": 60,
+    "PATIENCE": 30,
+    "LEARNING_RATE": 0.0001,
+    "WEIGHT_DECAY": 0.0005,
+    "__comment__MCLab configuration": "MCLab configuration",
+    "VALID_SAMPLES_NUM": 200,
+    "SCHEDULER": "step_custom",
+    "STEP_LR_SIZE": 20,
+    "DOWNSTEPS": [
+        60,
+        80
+    ],
+    "SUBMISSION": false,
+    "SAVE_EPOCHS": [],
+    "ROT_FLIP": "yz",
+    "RF_RATIO": [
+        0.3,
+        0.3
+    ],
+    "DROP_RATE": 0.0,
+    "UP_SCALE": 2.0,
+    "EMA_RATE": 0.998,
+    "MIX_PROB": 0.0,
+    "LABEL_SMOOTHING_ALPHA": 0.0,
+    "__comment__MCLab Model configuration": "MCLab Model configuration",
+    "AUX_TASK": "Segmentation",
+    "AUX_BATCH_SIZE": 16,
+    "DETECTOR_DROP_RATE": 0.0,
+    "AUX_LOSS_WEIGHT": 0.5
+}
