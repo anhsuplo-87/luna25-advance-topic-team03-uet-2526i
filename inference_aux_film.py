@@ -423,15 +423,17 @@ def private_run(zip_root, model_name="LUNA25-baseline-2D", device="cuda"):
                     "CoordZ": round(coord[0], 2)
                 })
 
+        print()
+
         # Save outputs
         output_dir.mkdir(parents=True, exist_ok=True)
         output_filepath = output_dir / f"{zip_name}.json"
         with open(output_filepath, "w") as f:
             json.dump(output_results, f, indent=4)
-        print(f" > Saved output to {output_filepath}")
+        print(f" > Saved output to {output_filepath}\n")
 
-        # debug break
-        break
+        # # debug break
+        # break
 
     # Ceanup temporary files
     if temp_extract.exists():
