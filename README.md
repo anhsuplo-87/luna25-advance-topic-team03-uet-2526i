@@ -12,7 +12,7 @@ This repository contains the **model implementation and experimental pipeline** 
 | **Team** | 03 |
 | **Members** | Vũ Thuỳ Trang – 24025157 |
 | | Lương Sơn Bá – 24025114 |
-| **Graduate Lecturer** | PGS. TS. Đặng Thanh Hải |
+| **Course Lecturer** | PGS. TS. Đặng Thanh Hải |
 
 ## Project Context
 
