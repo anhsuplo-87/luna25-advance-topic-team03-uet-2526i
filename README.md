@@ -333,53 +333,84 @@ Each predicted nodule will contain its **malignancy probability**.
 
 ## Private Test
 
-For the **private test set**, the input only provides **raw CT scans** (**DICOM series**) without nodule coordinates.
-Therefore, the pipeline performs two stages:
+For the **private test set**, the input provides **raw CT scans** (**DICOM series** inside `.zip` files) without nodule coordinates or clinical metadata. 
+The pipeline automatically handles end-to-end processing through the following stages:
 
-1. **Nodule Detection**  
-    A detection model (`MalignancyDetector`) based on MONAI RetinaNet is used to detect candidate nodules.
+### Pipeline Stages
 
-2. **Malignancy Classification**  
-    Detected nodules are passed to `MalignancyProcessor` to estimate malignancy probability.
+1.  **Preprocessing & Extraction**  
+    Extracts DICOM files from ZIP archives and converts them to NIfTI volumes, while generating a `metadata.json` for each case.
+2.  **Nodule Detection**  
+    A detection model (`MalignancyDetector`) based on MONAI RetinaNet is used to identify candidate nodule locations.
+3.  **Clinical Data Transformation**  
+    The pipeline extracts and transforms raw clinical information (**Patient Age** and **Sex**) from DICOM headers via `process_raw_clinical`.
+4.  **Malignancy Classification**  
+    Each detected nodule is passed to `MalignancyProcessor` to estimate a malignancy probability (0.0 to 1.0) using both image data and clinical features.
+5.  **Cancer Prediction (Patient Level)**  
+    A `CancerPredictor` applies a **"max-rule"** logic (with `THRESHOLD = 0.5`) across all detected nodules to determine the overall cancer status for the entire patient.
+6.  **Visualization**  
+    The `visualize_nodules` function generates visual overlays of detected nodules for verification and stored in the `visualizations` folder.
+
+### Execution
 
 The private test pipeline is implemented in `inference_aux_film.py` using the `--private_run` flag.
 
-Example command:
-
+**Example command:**
 ```bash
 python inference_aux_film.py \
     --model_name LUNA25-team03-best-20251217 \
     --private_run
 ```
 
-Input format:
+### Input & Output Structure
+#### Input format:
 
 ```bash
 ./private-test/MTN/
-└── *.zip
+└── *.zip (Each zip contains a CT DICOM series)
 ```
+#### Output format:
+Results are saved into the `./private-test/MTN/output/` directory:
+1. **Individual Case Results (`<zip_name>.json`)**: Contains a list of all detected nodules with:
+    ```json
+    [
+        {
+            "seriesInstanceUID": "1.2.840.113619.2.417.3.330070512.764.1765237290.256.3",
+            "probability": 0.009688399732112885,
+            "predictionLabel": 0,
+            "processingTimeMs": 173,
+            "CoordX": -34.27,
+            "CoordY": 44.22,
+            "CoordZ": -49.31
+        },
+        ...
+    ]
+    ```
+    - `seriesInstanceUID`
+    - `probability`: Malignancy score (float).
+    - `predictionLabel`: Binary label (1 if prob >= 0.5).
+    - `CoordX`, `CoordY`, `CoordZ`: World coordinates.
+    - `processingTimeMs`: Runtime for that specific nodule.
 
-Each .zip file contains a CT DICOM series. The pipeline will:
-
-- Extract the DICOM files
-- Convert them to NIfTI volumes
-- Detect lung nodules
-- Predict malignancy probability
-- Save results as JSON
-
-Outputs are written to:
-
-```bash
-./private-test/MTN/output/
-└── *.json
-```
-
-Each result contains:
-
-- detected nodule coordinates
-- malignancy probability
-- predicted label
-- processing runtime
+2. **Overall Summary (`cancer_predictions.json`):**
+    ```json
+    [
+        {
+            "seriesInstanceUID": "1.2.840.113619.2.417.3.330070512.764.1765237290.256.3",
+            "cancerPrediction": 0,
+            "processingTimeMs": 1602
+        },
+        ...
+    ]
+    ```
+    - `seriesInstanceUID`
+    - `cancerPrediction`: Overall patient-level diagnosis (0 or 1).
+    - `processingTimeMs`: Total runtime for the entire case.
+    
+3. **Visualizations:**
+    ![alt text](visualization-demo.png)
+    - Located in `./private-test/MTN/visualizations/<zip_name>/`
+    - Provides image slices showing the detected nodule locations.
 
 ### Inference Flags
 

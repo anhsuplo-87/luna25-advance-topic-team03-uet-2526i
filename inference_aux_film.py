@@ -15,7 +15,7 @@ import numpy as np
 from scipy.special import logit
 import joblib
 
-from processor_aux_film import MalignancyProcessor, MalignancyDetector, process_luna25_zip, process_raw_clinical
+from processor_aux_film import MalignancyProcessor, MalignancyDetector, CancerPredictor, process_luna25_zip, process_raw_clinical, visualize_nodules
 
 
 # suppress warnings from torch about inference mode and other deprecations
@@ -318,6 +318,13 @@ def private_run(zip_root, model_name="LUNA25-baseline-2D", device="cuda"):
         device=device
     )
 
+    predictor = CancerPredictor(
+        threshold=THRESHOLD,
+        method="max-rule"
+    )
+
+    cancer_predictions = []
+
     print("[PRIVATE RUN]")
     print(f"- model: {model_name}")
 
@@ -327,6 +334,7 @@ def private_run(zip_root, model_name="LUNA25-baseline-2D", device="cuda"):
     # For each zip file in the input directory
     for zip_filepath in zip_root.glob("*.zip"):
         output_results = []
+        nodule_probs = []
         zip_name = zip_filepath.stem
         print(f"Processing zip file {zip_name}...")
 
@@ -374,6 +382,7 @@ def private_run(zip_root, model_name="LUNA25-baseline-2D", device="cuda"):
 
         # Malignancy prediction
         # using MaligancyProcessor class
+        total_runtime = 0
         for s_uid in metadata.keys():
             filename = metadata[s_uid]['File']
 
@@ -388,9 +397,9 @@ def private_run(zip_root, model_name="LUNA25-baseline-2D", device="cuda"):
             print(f" + Predicting malignancy for nodules in series_UID {s_uid}...")
 
             for nodule_loc in metadata[s_uid]["NoduleLocations"]:
-                # nodule_loc format = [c c c w h d]
+                # nodule_loc format = [cx cy cz w h d]
                 # coord format = [z, y, x]
-                z, y, x = nodule_loc[:3]
+                x, y, z = nodule_loc[:3]
                 coord = [z, y, x]
 
                 # Timestamp for meansuring runtime
@@ -423,6 +432,23 @@ def private_run(zip_root, model_name="LUNA25-baseline-2D", device="cuda"):
                     "CoordZ": round(coord[0], 2)
                 })
 
+                # Append malignancy risk to nodule_probs for cancer prediction
+                nodule_probs.append(malignancy_risk)
+
+                total_runtime += run_time
+
+        print()
+
+        # Cancer prediction
+        # using CancerPredictor class
+        cancer_prediction = predictor.predict(nodule_probs)
+        cancer_predictions.append({
+            "seriesInstanceUID": s_uid,
+            "cancerPrediction": int(cancer_prediction),
+            "processingTimeMs": int(total_runtime * 1000)
+        })
+        print(f" > Overall cancer prediction for patient in {zip_name}: {cancer_prediction}")
+
         print()
 
         # Save outputs
@@ -432,8 +458,24 @@ def private_run(zip_root, model_name="LUNA25-baseline-2D", device="cuda"):
             json.dump(output_results, f, indent=4)
         print(f" > Saved output to {output_filepath}\n")
 
+        # Visualize nodules and save visualization
+        visualize_nodules(
+            metadata,
+            output_results,
+            zip_root,
+            zip_name
+        )
+
         # # debug break
         # break
+
+    # Save overall cancer predictions for all patients
+    cancer_output_filepath = output_dir / f"cancer_predictions.json"
+    with open(cancer_output_filepath, "w") as f:
+        json.dump(cancer_predictions, f, indent=4)
+    print(f" > Saved overall cancer predictions to {cancer_output_filepath}\n")
+
+    print()
 
     # Ceanup temporary files
     if temp_extract.exists():

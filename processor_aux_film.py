@@ -725,6 +725,46 @@ class MalignancyDetector:
         return results
 
 
+# ------------------- Predictor ------------------- 
+
+class CancerPredictor:
+    """
+    Using probabilities from MalignancyProcessor to make final predictions.
+    """
+
+    def __init__(self, threshold=0.5, method="max-rule"):
+        self.threshold = threshold
+        self.method = method
+
+    def _max_rule(self, probabilities):
+        return (np.max(probabilities) >= self.threshold).astype(int)
+
+    def _topk_rule(self, probabilities, k=3):
+        topk_indices = np.argsort(probabilities)[-k:]
+        return (probabilities[topk_indices] >= self.threshold).any().astype(int)
+
+    def _prob_pooling_rule(self, probabilities):
+        # Assuming independence
+        pooled_prob = 1 - np.prod(1 - probabilities)
+        return (pooled_prob >= self.threshold).astype(int)
+
+    def predict(self, probabilities):
+        # max-rule: if any nodule has probability above threshold -> predict malignancy
+        if self.method == "max-rule":
+            return self._max_rule(probabilities)
+
+        # topk-rule: if any of the top-k nodules has probability above threshold -> predict malignancy
+        if self.method == "topk-rule":
+            return self._topk_rule(probabilities)
+
+        # prob-pooling: pool probabilities of all nodules and apply threshold
+        if self.method == "prob-pooling":
+            return self._prob_pooling_rule(probabilities)
+        
+        # at least one nodule is above threshold -> predict malignancy
+        return (probabilities >= self.threshold).any().astype(int)
+
+
 # -------------------- Helper functions --------------------
 import os
 import zipfile
@@ -814,6 +854,93 @@ def process_raw_clinical(metadata, s_uid):
         age = int(age)
 
     return sex, age
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def visualize_nodules(
+    metadata,
+    output_results,
+    zip_root,
+    zip_name,
+    save_folder="visualizations"
+):
+    save_dir = zip_root / save_folder / zip_name
+    os.makedirs(save_dir, exist_ok=True)
+
+    from collections import defaultdict
+    grouped_results = defaultdict(list)
+    for p in output_results:
+        grouped_results[p["seriesInstanceUID"]].append(p)
+
+    for series_uid, detections in grouped_results.items():
+        file_name = metadata[series_uid]["File"]
+        img_path = zip_root / "input" / zip_name / file_name
+        
+        img = sitk.ReadImage(str(img_path))
+        volume = sitk.GetArrayFromImage(img) 
+
+        for idx, p in enumerate(detections):
+            _, _, _, w, h, d = metadata[series_uid]["NoduleLocations"][idx]
+            x, y, z = p["CoordX"], p["CoordY"], p["CoordZ"]
+            
+            voxel = img.TransformPhysicalPointToIndex((x, y, z))
+            vx, vy, vz = voxel
+
+            vz = np.clip(vz, 0, volume.shape[0] - 1)
+
+            spacing = img.GetSpacing() # (x_spacing, y_spacing, z_spacing)
+            v_w = int(w / spacing[0])
+            v_h = int(h / spacing[1])
+
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+
+            # axis 1: original slice
+            slice_img = volume[vz, :, :]
+            ax1.imshow(slice_img, cmap="gray")
+            ax1.scatter(vx, vy, c="red", s=30, edgecolors='white')
+            
+            text = (f"label: {p['predictionLabel']}\n"
+                    f"prob: {p['probability']:.3f}\n"
+                    f"coord: ({x:.1f}, {y:.1f}, {z:.1f})\n"
+                    f"time: {p['processingTimeMs']:.1f} ms")
+            
+            ax1.text(0.05, 0.05, text, color="yellow", fontsize=9, 
+                    transform=ax1.transAxes, 
+                    verticalalignment='bottom',
+                    bbox=dict(facecolor="black", alpha=0.6))
+            ax1.set_title(f"Full Slice: {vz}")
+            ax1.axis("off")
+
+            # axis 2: zoomed-in patch
+            margin = 1.5
+            crop_h = max(64, int(v_h * margin))
+            crop_w = max(64, int(v_w * margin))
+
+            y_min = int(max(0, vy - crop_h // 2))
+            y_max = int(min(volume.shape[1], y_min + crop_h))
+            if y_max == volume.shape[1]:
+                y_min = max(0, y_max - crop_h)
+
+            x_min = int(max(0, vx - crop_w // 2))
+            x_max = int(min(volume.shape[2], x_min + crop_w))
+            if x_max == volume.shape[2]:
+                x_min = max(0, x_max - crop_w)
+            
+            crop_img = slice_img[y_min:y_max, x_min:x_max]
+            ax2.imshow(crop_img, cmap="gray")
+            
+            ax2.scatter(vx - x_min, vy - y_min, c="red", s=100, marker='+', edgecolors='white')
+            ax2.set_title(f"Zoomed Patch ({crop_w}x{crop_h}px) - (real size = {w:.1f}x{h:.1f}mm)")
+            ax2.axis("off")
+
+            plt.tight_layout()
+            save_path = save_dir / f"{series_uid}_{x:.1f}_{y:.1f}_{z:.1f}.png"
+            plt.savefig(save_path, bbox_inches="tight", dpi=100)
+            plt.close()
+
+    print(f" > Visualizations saved to {save_dir} ")
+
 
 # sanity test
 if __name__ == "__main__":
