@@ -386,7 +386,7 @@ Results are saved into the `./private-test/MTN/output/` directory:
         ...
     ]
     ```
-    - `seriesInstanceUID`
+    - `seriesInstanceUID`: Unique identifier for the CT series processed within that ZIP.
     - `probability`: Malignancy score (float).
     - `predictionLabel`: Binary label (1 if prob >= 0.5).
     - `CoordX`, `CoordY`, `CoordZ`: World coordinates.
@@ -394,18 +394,21 @@ Results are saved into the `./private-test/MTN/output/` directory:
 
 2. **Overall Summary (`cancer_predictions.json`):**
     ```json
-    [
-        {
-            "seriesInstanceUID": "1.2.840.113619.2.417.3.330070512.764.1765237290.256.3",
-            "cancerPrediction": 0,
-            "processingTimeMs": 1602
-        },
+    {
+        "123.255088989375905.1851013063013701": [
+            {
+                "seriesInstanceUID": "1.2.840.113619.2.417.3.330070512.764.1765237290.256.3",
+                "cancerPrediction": 0,
+                "processingTimeMs": 2303
+            }
+        ],
         ...
-    ]
+    }
     ```
-    - `seriesInstanceUID`
+    - `zip_name` (eg: `"123.255088989375905.1851013063013701"`): he filename of the input ZIP archive (without extension)
+    - `seriesInstanceUID`: Unique identifier for the CT series processed within that ZIP.
     - `cancerPrediction`: Overall patient-level diagnosis (0 or 1).
-    - `processingTimeMs`: Total runtime for the entire case.
+    - `processingTimeMs`: Total cumulative runtime (in milliseconds) for processing all detected nodules within that specific series.
     
 3. **Visualizations:**
     ![alt text](visualization-demo.png)

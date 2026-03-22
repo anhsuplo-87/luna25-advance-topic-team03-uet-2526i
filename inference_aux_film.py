@@ -323,7 +323,7 @@ def private_run(zip_root, model_name="LUNA25-baseline-2D", device="cuda"):
         method="max-rule"
     )
 
-    cancer_predictions = []
+    cancer_predictions = {}
 
     print("[PRIVATE RUN]")
     print(f"- model: {model_name}")
@@ -437,19 +437,23 @@ def private_run(zip_root, model_name="LUNA25-baseline-2D", device="cuda"):
 
                 total_runtime += run_time
 
-        print()
+            print()
 
-        # Cancer prediction
-        # using CancerPredictor class
-        cancer_prediction = predictor.predict(nodule_probs)
-        cancer_predictions.append({
-            "seriesInstanceUID": s_uid,
-            "cancerPrediction": int(cancer_prediction),
-            "processingTimeMs": int(total_runtime * 1000)
-        })
-        print(f" > Overall cancer prediction for patient in {zip_name}: {cancer_prediction}")
+            # Cancer prediction
+            # using CancerPredictor class
+            cancer_prediction = predictor.predict(nodule_probs)
+            print(f" > Overall cancer prediction for patient in {zip_name} and {s_uid} series: {cancer_prediction}")
+            
+            if zip_name not in cancer_predictions:
+                cancer_predictions[zip_name] = []
 
-        print()
+            cancer_predictions[zip_name].append({
+                "seriesInstanceUID": s_uid,
+                "cancerPrediction": int(cancer_prediction),
+                "processingTimeMs": int(total_runtime * 1000)
+            })
+
+            print()
 
         # Save outputs
         output_dir.mkdir(parents=True, exist_ok=True)
